@@ -98,10 +98,12 @@ function scorerPrompt(word) {
       scoreSelect = input.question(`Invalid input. Please enter 0 , 1, or 2: `)
    }
 
-   console.log(`Score for ${word}: ${scoringAlgorithms[scoreSelect].scorerFunction(wordInput)}.`)
+   console.log(`Score for ${word}: ${scoringAlgorithms[scoreSelect].scorerFunction(word)}.`)
    
    // return scoreSelect;
    // return scoringAlgorithms[scoreSelect].scorerFunction;
+   return scoringAlgorithms[scoreSelect];
+
 }
 
 function transform() {};
@@ -109,9 +111,15 @@ function transform() {};
 let newPointStructure;
 
 function runProgram() {
-   initialPrompt();
-   scorerPrompt();
+   // initialPrompt();
+   // scorerPrompt();
    
+   let word = initialPrompt();
+   let selectedAlgorithm = scorerPrompt(word);
+   // this worked after i changed scorerPompt a bit. 
+  
+
+
 }
 
 // Don't write any code below this line //
