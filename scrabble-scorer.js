@@ -32,19 +32,77 @@ function oldScrabbleScorer(word) {
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
 
+let wordInput;
+let scoreSelect;
+// thought maybe declaring these out here would capture it and stop the type error. TypeError: Cannot read properties of undefined (reading 'toLowerCase') at Object.simpleScorer [as scorerFunction]
+
 function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
+   let wordInput = input.question("Let's play some scrabble! Enter a word: ")
+   return wordInput;
 };
 
-let simpleScorer;
+let simpleScorer = function (word) {
+   word = word.toLowerCase();
+   let simpleScore = word.length;
+   return simpleScore;
+};
+// On Task 2. I've tried this block like 4 different ways and keep getting a type error. I've searched for a couple of hours and cannot seem to get anything to work. 
 
-let vowelBonusScorer;
+let vowelBonusScorer = function (word) {
+   word = word.toLowerCase();
+   let vowels = ['a', 'e', 'i', 'o', 'u']; // sometimes y?
+   let score = 0;
+
+   for (let i = 0; i < word.length; i++) {
+      if (vowels.includes(word[i])) {
+         score += 3;
+      } else {
+         score++;
+      }
+   }
+
+   return score;
+};
 
 let scrabbleScorer;
 
-const scoringAlgorithms = [];
+const scoringAlgorithms = [
+   {
+      name: 'Simple Score',
+      description: 'Each letter is worth 1 point.',
+      scorerFunction: simpleScorer
+   },
+   {
+      name: "Bonus Vowels",
+      description: "Vowels are 3 pts, consonants are 1 pt.",
+      scorerFunction: vowelBonusScorer
+   },
+   {
+      name: "Scrabble",
+      description: "The traditional scoring algorithm.",
+      scorerFunction: oldScrabbleScorer
+   }
+];
 
-function scorerPrompt() {}
+function scorerPrompt(word) {
+   console.log(
+   `Please select a scoring algorithim: 
+
+   0 - Simple: One point per character
+   1 - Vowel Bonus: Vowels are worth 3 points
+   2 - Scrabble: Uses scrabble point system`);
+
+   scoreSelect = input.question(`Enter 0, 1, or 2: `)
+   
+   while (!(scoreSelect >= 0 && scoreSelect <= 2)) {
+      scoreSelect = input.question(`Invalid input. Please enter 0 , 1, or 2: `)
+   }
+
+   console.log(`Score for ${word}: ${scoringAlgorithms[scoreSelect].scorerFunction(wordInput)}.`)
+   
+   // return scoreSelect;
+   // return scoringAlgorithms[scoreSelect].scorerFunction;
+}
 
 function transform() {};
 
@@ -52,6 +110,7 @@ let newPointStructure;
 
 function runProgram() {
    initialPrompt();
+   scorerPrompt();
    
 }
 
