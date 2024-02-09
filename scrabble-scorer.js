@@ -32,8 +32,8 @@ function oldScrabbleScorer(word) {
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
 
-let wordInput;
-let scoreSelect;
+// let wordInput;
+// let scoreSelect;
 // thought maybe declaring these out here would capture it and stop the type error. TypeError: Cannot read properties of undefined (reading 'toLowerCase') at Object.simpleScorer [as scorerFunction]
 
 function initialPrompt() {
@@ -46,7 +46,7 @@ let simpleScorer = function (word) {
    let simpleScore = word.length;
    return simpleScore;
 };
-// On Task 2. I've tried this block like 4 different ways and keep getting a type error. I've searched for a couple of hours and cannot seem to get anything to work. 
+
 
 let vowelBonusScorer = function (word) {
    word = word.toLowerCase();
@@ -64,7 +64,15 @@ let vowelBonusScorer = function (word) {
    return score;
 };
 
-let scrabbleScorer;
+let scrabbleScorer = function (word) {
+   word = word.toLowerCase();
+   let score = 0;
+
+   for (let i = 0; i < word.length; i++) {
+      score += newPointStructure[word[i]];
+   }
+   return score;
+};
 
 const scoringAlgorithms = [
    {
@@ -80,7 +88,7 @@ const scoringAlgorithms = [
    {
       name: "Scrabble",
       description: "The traditional scoring algorithm.",
-      scorerFunction: oldScrabbleScorer
+      scorerFunction: scrabbleScorer
    }
 ];
 
@@ -106,13 +114,23 @@ function scorerPrompt(word) {
 
 }
 
-function transform() {};
+function transform(oldPointStructure) {
+   let newPointStructure = {};
+   
+   for (let newPoints in oldPointStructure) {
+      for (let letter in oldPointStructure[newPoints]) {
+         newPointStructure[oldPointStructure[newPoints][letter].toLowerCase()] = Number(newPoints);
+      }
+   }
+   return newPointStructure;
+};
 
-let newPointStructure;
+let newPointStructure = transform(oldPointStructure);
 
 function runProgram() {
    // initialPrompt();
    // scorerPrompt();
+   // when i try just these i get the type error, but why? 
    
    let word = initialPrompt();
    let selectedAlgorithm = scorerPrompt(word);
